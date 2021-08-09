@@ -1,4 +1,5 @@
-# Gatsby Funcjam 21
+
+# Gatsby FuncJam 21
 
 This example shows how to build a form with [react-hook-form](https://react-hook-form.com/) that submits to a Gatsby Function.
 
