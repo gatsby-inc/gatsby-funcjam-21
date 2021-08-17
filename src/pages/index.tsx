@@ -1,10 +1,14 @@
-import React, { FunctionComponent } from 'react'
+import React, { Fragment, FunctionComponent } from 'react'
+import { Container } from 'theme-ui'
+
+import ThreeScene from '../components/three-scene'
 
 const IndexPage: FunctionComponent = () => {
   return (
-    <main>
-      <h1>Index Page</h1>
-    </main>
+    <Fragment>
+      <ThreeScene />
+      <Container></Container>
+    </Fragment>
   )
 }
 

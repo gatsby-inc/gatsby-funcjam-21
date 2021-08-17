@@ -28,6 +28,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@types/d3": "^7.0.0",
     "@types/react-helmet": "^6.1.1",
     "@types/shopify-buy": "^2.10.5",
     "@types/three": "^0.129.1",
@@ -39,6 +40,10 @@
     "@react-three/drei": "^7.4.0",
     "@react-three/fiber": "^7.0.6",
     "axios": "^0.21.1",
+    "country-flag-colors": "^0.0.3",
+    "country-flag-icons": "^1.4.3",
+    "d3": "^7.0.1",
+    "dotenv": "^10.0.0",
     "express-jwt": "^6.1.0",
     "gatsby": "next",
     "gatsby-plugin-gatsby-cloud": "^2.11.0",
