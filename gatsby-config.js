@@ -1,6 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: 'Groovy Analytics',
+    url: ``,
+    title: `Groovy Analytics`,
+    image: ``,
+    description: ``,
+    language: ``,
+    keywords: ``,
   },
   plugins: [
     `gatsby-plugin-gatsby-cloud`,

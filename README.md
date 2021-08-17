@@ -1,4 +1,3 @@
-
 # Gatsby FuncJam '21
 
 This example shows how to build a form with [react-hook-form](https://react-hook-form.com/) that submits to a Gatsby Function.
@@ -23,7 +22,6 @@ This example shows how to build a form with [react-hook-form](https://react-hook
 
 You can deploy this example on Gatsby Cloud by copying the example into a new repo and [connecting that to Gatsby Cloud](https://www.gatsbyjs.com/docs/how-to/previews-deploys-hosting/deploying-to-gatsby-cloud/#set-up-an-existing-gatsby-site).
 
-
 ## Submission Checklist
 
 - [ ] Add installation documentation to the README
@@ -33,5 +31,9 @@ You can deploy this example on Gatsby Cloud by copying the example into a new re
 ## Helpful Links
 
 Read the Gatsby [functions docs](https://www.gatsbyjs.com/docs/reference/functions/).
-Check out this video all about Gatsby functions 
-Take a look at the Functions Use Cases over [here](https://www.gatsbyjs.com/products/cloud/functions/). 
+Check out this video all about Gatsby functions
+Take a look at the Functions Use Cases over [here](https://www.gatsbyjs.com/products/cloud/functions/).
+
+## Auth0
+
+https://townhall.hashnode.com/auth0-hackathon
