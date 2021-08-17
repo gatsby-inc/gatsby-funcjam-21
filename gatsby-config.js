@@ -1,6 +1,10 @@
 module.exports = {
   siteMetadata: {
-    title: "form",
+    title: 'Groovy Analytics',
   },
-  plugins: [],
+  plugins: [
+    `gatsby-plugin-gatsby-cloud`,
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-theme-ui`,
+  ],
 }

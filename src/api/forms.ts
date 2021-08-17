@@ -1,4 +1,4 @@
-import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby"
+import { GatsbyFunctionRequest, GatsbyFunctionResponse } from 'gatsby'
 
 export default function handler(
   req: GatsbyFunctionRequest,

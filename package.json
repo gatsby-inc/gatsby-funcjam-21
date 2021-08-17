@@ -1,23 +1,55 @@
 {
-  "name": "form",
+  "name": "groovy-analytics",
   "version": "1.0.0",
   "private": true,
-  "description": "form",
-  "author": "Kyle Mathews",
-  "keywords": [
-    "gatsby"
-  ],
+  "description": "Google Analytics + Auth0 Authenticated Reactions",
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "prettier": "prettier --config ./.prettierrc.js --ignore-path ./.prettierignore --write \"**/*.{json,js,ts,tsx,mdx}\"",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raae/nattermob.dev.git"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "author": "Nattermob",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raae/nattermob.dev/issues"
+  },
+  "homepage": "https://github.com/raae/nattermob.dev#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@types/react-helmet": "^6.1.1",
+    "@types/shopify-buy": "^2.10.5",
+    "@types/three": "^0.129.1",
+    "husky": "^7.0.0",
+    "prettier": "^2.3.0"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.6.0",
+    "@react-three/drei": "^7.4.0",
+    "@react-three/fiber": "^7.0.6",
+    "axios": "^0.21.1",
+    "express-jwt": "^6.1.0",
     "gatsby": "next",
+    "gatsby-plugin-gatsby-cloud": "^2.11.0",
+    "gatsby-plugin-react-helmet": "^4.11.0",
+    "gatsby-plugin-theme-ui": "^0.10.1",
+    "googleapis": "^84.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-hook-form": "^7.5.2"
+    "react-helmet": "^6.1.0",
+    "theme-ui": "^0.10.0",
+    "three": "^0.131.3",
+    "three-geojson-geometry": "^1.1.5"
   }
 }
