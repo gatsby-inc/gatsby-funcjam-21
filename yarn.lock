@@ -6000,6 +6000,15 @@ gatsby-plugin-gatsby-cloud@^2.11.0:
     lodash "^4.17.21"
     webpack-assets-manifest "^5.0.6"
 
+gatsby-plugin-google-analytics@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-3.11.0.tgz#20d060320955d051f94b8867074d0b8a68f167af"
+  integrity sha512-GX+hVg8ma6L8bXfeJLitTeIi06MVfo3wFnsl0VhsIdVQ/i6NJdG6y0G2Cw1hPWdqnoJG9Y4YTiJkcZP330gmuQ==
+  dependencies:
+    "@babel/runtime" "^7.14.6"
+    minimatch "3.0.4"
+    web-vitals "^1.1.2"
+
 gatsby-plugin-page-creator@^3.13.0-next.0:
   version "3.13.0-next.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-page-creator/-/gatsby-plugin-page-creator-3.13.0-next.0.tgz#aa8bfaa95473888adc47b4bf8da08770a99b8a14"
@@ -12274,6 +12283,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
+
+web-vitals@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-1.1.2.tgz#06535308168986096239aa84716e68b4c6ae6d1c"
+  integrity sha512-PFMKIY+bRSXlMxVAQ+m2aw9c/ioUYfDgrYot0YUa+/xa0sakubWhSDyxAKwzymvXVdF4CZI71g06W+mqhzu6ig==
 
 webgl-constants@^1.1.1:
   version "1.1.1"

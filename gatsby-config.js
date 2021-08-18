@@ -12,6 +12,12 @@ module.exports = {
     keywords: ``,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+      },
+    },
     `gatsby-plugin-gatsby-cloud`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-theme-ui`,
