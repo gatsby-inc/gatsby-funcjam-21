@@ -1,3 +1,3 @@
 import { Radius } from '../types'
 
-export const RADIUS: Radius = 180
+export const RADIUS: Radius = 110

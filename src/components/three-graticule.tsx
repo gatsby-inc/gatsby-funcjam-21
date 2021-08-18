@@ -16,7 +16,7 @@ const ThreeGraticule: FunctionComponent<IThreeGraticuleProps> = ({
       <lineBasicMaterial
         color={theme.colors.three.graticule}
         transparent={true}
-        opacity={0.2}
+        opacity={0.1}
       />
     </lineSegments>
   )

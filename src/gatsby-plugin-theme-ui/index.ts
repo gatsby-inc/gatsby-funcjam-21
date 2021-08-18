@@ -4,7 +4,8 @@ const theme = {
     background: '#000000',
     three: {
       background: '#080808',
-      sphere: '#000009',
+      // sphere: '#ffffff',
+      sphere: '#ff0044',
       marker: '#ff0099',
       geometry: '#ff0077',
       graticule: '#ff0044',
