@@ -17,7 +17,7 @@ exports.sourceNodes = async ({
   const response = await google.analytics('v3').data.ga.get({
     auth: jwt,
     ids: `ga:${process.env.GOOGLE_ANALYTICS_VIEW_ID}`,
-    'start-date': '2019-10-01',
+    'start-date': '2021-08-18',
     'end-date': 'today',
     metrics: 'ga:pageviews',
     dimensions: 'ga:city,ga:latitude,ga:longitude,ga:country,ga:countryIsoCode',

@@ -27,23 +27,29 @@ const ThreeMarker: FunctionComponent<IThreeMarkerProps> = ({
 
   const mesh = useRef<THREE.Mesh>(null!)
 
-  const cap = count > MAX ? MAX : count
+  // useEffect(() => {
+  //   mesh.current.lookAt(getVertex(radius, Math.PI, lng))
+  // }, [mesh])
 
-  useEffect(() => {
-    mesh.current.lookAt(getVertex(Math.PI, lng, radius))
-  }, [mesh])
+  // const stops = colors.map((_, index, arr) =>
+  //   Number((index / (arr.length - 1)).toFixed(1))
+  // )
+  // const hex = colors.map((color) => color)
 
-  const stops = colors.map((_, index, arr) =>
-    Number((index / (arr.length - 1)).toFixed(1))
-  )
-  const hex = colors.map((color) => color)
+  // return (
+  //   <mesh ref={mesh} position={getVertex(radius + 1, lat, lng)}>
+
+  //     <cylinderGeometry args={[0.5, 0.5, count * 10, 12]} />
+  //     <meshPhongMaterial color={theme.colors.three.marker}>
+  //       <GradientTexture stops={stops} colors={hex} />
+  //     </meshPhongMaterial>
+  //   </mesh>
+  // )
 
   return (
-    <mesh ref={mesh} position={getVertex(lat, lng, radius)}>
-      <cylinderGeometry args={[0.8, 0.8, cap, 10, 1, false]} />
-      <meshPhongMaterial color={theme.colors.three.marker}>
-        <GradientTexture stops={stops} colors={hex} />
-      </meshPhongMaterial>
+    <mesh ref={mesh} position={getVertex(radius + 1, lat, lng)}>
+      <sphereGeometry args={[0.6, 16, 16]} />
+      <meshBasicMaterial color={theme.colors.three.marker} />
     </mesh>
   )
 }

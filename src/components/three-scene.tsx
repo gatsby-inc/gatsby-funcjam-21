@@ -53,7 +53,7 @@ const ThreeScene: FunctionComponent = () => {
         gl={{ antialias: false, alpha: false }}
         camera={{
           fov: 45,
-          position: [0, 100, 300],
+          position: [0, 10, 300],
         }}
         onCreated={handleLoad}
       >

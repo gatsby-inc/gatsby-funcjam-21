@@ -8,7 +8,7 @@ interface IThreeSphereProps extends IRadius {}
 const ThreeSphere: FunctionComponent<IThreeSphereProps> = ({ radius }) => {
   return (
     <mesh>
-      <sphereGeometry args={[radius, 16, 16]} />
+      <sphereGeometry args={[radius, 32, 32]} />
       {/* <meshToonMaterial color={theme.colors.three.sphere} /> */}
       <meshPhongMaterial
         color={theme.colors.three.sphere}

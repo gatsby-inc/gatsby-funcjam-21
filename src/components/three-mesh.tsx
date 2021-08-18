@@ -20,12 +20,13 @@ const ThreeMesh: FunctionComponent<IThreeMeshProps> = ({ locations }) => {
   useFrame(() => {
     return (mesh.current.rotation.y += 0.004)
   })
+
   return (
     <mesh ref={mesh}>
       <ThreeSphere radius={RADIUS} />
       <ThreeGeo radius={RADIUS} />
       <ThreeGraticule radius={RADIUS} />
-      {/* <ThreeAnalytics locations={locations} /> */}
+      <ThreeAnalytics locations={locations} />
     </mesh>
   )
 }
