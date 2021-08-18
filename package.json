@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raae/nattermob.dev.git"
+    "url": "git+https://github.com/pauliescanlon/gatsby-groovy-analytics.git"
   },
   "keywords": [
     "gatsby"
@@ -22,9 +22,9 @@
   "author": "Nattermob",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/raae/nattermob.dev/issues"
+    "url": "https://github.com/pauliescanlon/gatsby-groovy-analytics/issues"
   },
-  "homepage": "https://github.com/raae/nattermob.dev#readme",
+  "homepage": "https://github.com/pauliescanlon/gatsby-groovy-analytics#readme",
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
