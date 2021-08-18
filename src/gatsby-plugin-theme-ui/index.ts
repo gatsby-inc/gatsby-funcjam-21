@@ -1,6 +1,6 @@
 const theme = {
   colors: {
-    text: '#ff00ff',
+    text: '#ff0099',
     background: '#000000',
     three: {
       background: '#080808',
@@ -10,6 +10,11 @@ const theme = {
       geometry: '#ff0077',
       graticule: '#ff0044',
     },
+  },
+
+  fonts: {
+    heading: 'system-ui',
+    body: 'system-ui',
   },
 
   styles: {
@@ -28,6 +33,10 @@ const theme = {
     container: {
       px: [3, 4],
     },
+  },
+
+  zIndices: {
+    canvas: -1,
   },
 }
 

@@ -35,7 +35,11 @@ const ThreeScene: FunctionComponent = () => {
   return (
     <Box
       sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
         width: '100%',
+        zIndex: 'canvas',
         canvas: {
           width: '100%',
           height: '100vh',
