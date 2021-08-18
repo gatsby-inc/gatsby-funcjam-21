@@ -38,8 +38,9 @@ const ThreeScene: FunctionComponent = () => {
         width: '100%',
         canvas: {
           width: '100%',
-          height: ['auto', 'canvas'],
-          // cursor: 'move',
+          height: '100vh',
+          // height: ['auto', 'canvas'],
+          cursor: 'move',
           opacity: hasLoaded ? 1 : 0,
         },
       }}
@@ -53,13 +54,12 @@ const ThreeScene: FunctionComponent = () => {
         onCreated={handleLoad}
       >
         <color attach="background" args={[theme.colors.three.background]} />
-        {/* <OrbitControls
+        <OrbitControls
           enableRotate={true}
           enableZoom={false}
           enablePan={false}
-        /> */}
-
-        <pointLight args={[0, 10, 250]} color="#ffffff" />
+        />
+        <pointLight args={[0, 15, 180]} color="#ffffff" />
         <ambientLight intensity={0.04} />
         <ThreeMesh locations={nodes} />
       </Canvas>
