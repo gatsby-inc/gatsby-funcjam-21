@@ -1,19 +1,43 @@
 import React, { Fragment, FunctionComponent } from 'react'
-import { Container, Heading, Text } from 'theme-ui'
+import { Container, Grid, Flex, Text } from 'theme-ui'
 
 import ThreeScene from '../components/three-scene'
+import GroovyHeading from '../components/groovy-heading'
 
 const IndexPage: FunctionComponent = () => {
   return (
     <Fragment>
-      <ThreeScene />
-      <Container>
-        <Heading as="h1">Groovy Analytics</Heading>
-        <Text as="p">
-          I'm just collecting analytics data at the moment. Come back soon, and
-          you should see your location on the globe below.
-        </Text>
+      <Container
+        sx={{
+          pointerEvents: 'none',
+        }}
+      >
+        <Grid
+          sx={{
+            placeItems: 'center',
+            height: 'canvas',
+          }}
+        >
+          <Grid
+            sx={{
+              gap: 0,
+            }}
+          >
+            <GroovyHeading
+              as="h1"
+              variant="heading.h1"
+              textAlign="center"
+              justifyContent="center"
+              text={['Groovy', 'Analytics']}
+            />
+            <Text as="p" sx={{ color: 'text', textAlign: 'center' }}>
+              I'm just collecting analytics data at the moment. <br />
+              Come back soon, and you should see your location on the globe.
+            </Text>
+          </Grid>
+        </Grid>
       </Container>
+      <ThreeScene />
     </Fragment>
   )
 }

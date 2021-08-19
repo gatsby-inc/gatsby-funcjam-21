@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useState, useRef } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+// import { OrbitControls } from '@react-three/drei'
 import { Box } from 'theme-ui'
 
 import theme from '../gatsby-plugin-theme-ui'
@@ -36,14 +36,13 @@ const ThreeScene: FunctionComponent = () => {
     <Box
       sx={{
         position: 'absolute',
-        top: 0,
+        top: (theme: any) => theme.sizes.header,
         left: 0,
         width: '100%',
         zIndex: 'canvas',
         canvas: {
           width: '100%',
-          height: '100vh',
-          // height: ['auto', 'canvas'],
+          height: ['auto', 'canvas'],
           cursor: 'move',
           opacity: hasLoaded ? 1 : 0,
         },
@@ -53,18 +52,17 @@ const ThreeScene: FunctionComponent = () => {
         gl={{ antialias: false, alpha: false }}
         camera={{
           fov: 45,
-          position: [0, 10, 300],
+          position: [0, 100, 300],
         }}
         onCreated={handleLoad}
       >
         <color attach="background" args={[theme.colors.three.background]} />
-        <OrbitControls
+        {/* <OrbitControls
           enableRotate={true}
           enableZoom={false}
           enablePan={false}
-        />
-        <pointLight args={[0, 15, 180]} color="#ffffff" />
-        <ambientLight intensity={0.04} />
+        /> */}
+        <ambientLight intensity={0.5} />
         <ThreeMesh locations={nodes} />
       </Canvas>
     </Box>

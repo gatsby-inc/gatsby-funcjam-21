@@ -18,8 +18,8 @@ module.exports = {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
       },
     },
+    `gatsby-plugin-theme-ui`,
     `gatsby-plugin-gatsby-cloud`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-theme-ui`,
   ],
 }
