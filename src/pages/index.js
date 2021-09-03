@@ -1,81 +1,86 @@
-import React from "react"
-import { useForm } from "react-hook-form"
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import queryString from "query-string";
 
-export default function App() {
+const DEFAULT_VALUES = {};
+if (process.env.GATSBY_PREFILL) {
+  DEFAULT_VALUES.username = "raae";
+  DEFAULT_VALUES.amount = 1000;
+}
+
+export default function App({ location }) {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const params = queryString.parse(location.search);
+    if (params.payment === "cancelled") {
+      setMessage("You cancelled...try again?");
+    }
+  }, [location.search]);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm()
-  const onSubmit = data => {
-    fetch(`/api/form`, {
-      method: `POST`,
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": `application/json`,
-      },
-    })
-      .then(res => res.json())
-      .then(body => {
-        console.log(`response from API:`, body)
-      })
-  }
+    formState: { errors, isSubmitting, ...stuff },
+  } = useForm({
+    defaultValues: DEFAULT_VALUES,
+  });
 
-  console.log({ errors })
+  const onSubmit = async (data) => {
+    const result = await axios.post("/api/checkout", {
+      ...data,
+      cancelUrl: `${location.origin}/?payment=cancelled`,
+      successUrl: `${location.origin}/success/?session_id={CHECKOUT_SESSION_ID}`,
+    });
+
+    window.location = result.data.url;
+  };
+
+  console.log({ errors, stuff });
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: `block`, width: 400 }}
-    >
-      <label htmlFor="first-name">First name</label>
-      <input
-        id="first-name"
-        type="text"
-        style={{ display: `block`, marginBottom: 16 }}
-        {...register("First name", { required: true, maxLength: 80 })}
-      />
-
-      <label htmlFor="last-name">Last name</label>
-      <input
-        id="last-name"
-        type="text"
-        style={{ display: `block`, marginBottom: 16 }}
-        {...register("Last name", { required: true, maxLength: 100 })}
-      />
-
-      <label htmlFor="email">Email</label>
-      <input
-        id="email"
-        type="text"
-        style={{ display: `block`, marginBottom: 16 }}
-        {...register("Email", { required: true, pattern: /^\S+@\S+$/i })}
-      />
-
-      <label htmlFor="tel">Mobile number</label>
-      <input
-        id="tel"
-        type="tel"
-        style={{ display: `block`, marginBottom: 16 }}
-        {...register("Mobile number", {
-          required: true,
-          minLength: 6,
-          maxLength: 12,
-        })}
-      />
-
-      <label htmlFor="title">Title</label>
-      <select
-        {...register("Title", { required: true })}
-        style={{ display: `block`, marginBottom: 16 }}
+    <main>
+      <header>
+        <h1>Buy access to my repo</h1>
+      </header>
+      <p>Pay what you want above $1000 for my private GitHub Repo!!!!</p>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{ display: `block`, width: 400 }}
       >
-        <option value="Mr">Mr</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Miss">Miss</option>
-        <option value="Dr">Dr</option>
-      </select>
+        <fieldset disabled={isSubmitting}>
+          <label htmlFor="username">Github username:</label>
+          <br />
+          <input
+            type="text"
+            {...register("username", { required: true, maxLength: 80 })}
+          />
+          <br />
+          <br />
 
-      <input type="submit" />
-    </form>
-  )
+          <label htmlFor="first-name">
+            Price in USD you are willing to pay:
+          </label>
+          <br />
+          <input
+            type="number"
+            {...register("amount", { required: true, min: 1000 })}
+          />
+          <br />
+          <br />
+
+          <button>Buy access</button>
+        </fieldset>
+      </form>
+      <p>
+        {message ? (
+          <>
+            <br />
+            <small>{message}</small>
+          </>
+        ) : null}
+      </p>
+    </main>
+  );
 }

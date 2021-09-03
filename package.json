@@ -15,9 +15,13 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "axios": "0.21.1",
     "gatsby": "next",
+    "joi": "17.4.2",
+    "query-string": "6.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-hook-form": "^7.5.2"
+    "react-hook-form": "^7.5.2",
+    "stripe": "8.170.0"
   }
 }

@@ -3,4 +3,4 @@ module.exports = {
     title: "form",
   },
   plugins: [],
-}
+};
