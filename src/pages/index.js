@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Link } from "gatsby";
 import queryString from "query-string";
 
 const DEFAULT_VALUES = {};
@@ -45,6 +46,9 @@ export default function App({ location }) {
         <h1>Buy access to my repo</h1>
       </header>
       <p>Pay what you want above $1000 for my private GitHub Repo!!!!</p>
+      <p>
+        <a href="/api/auth">Login with GitHub</a>
+      </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: `block`, width: 400 }}
