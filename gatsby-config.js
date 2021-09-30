@@ -2,5 +2,5 @@ module.exports = {
   siteMetadata: {
     title: "form",
   },
-  plugins: [],
+  plugins: ["@raae/gatsby-plugin-new-css"],
 };

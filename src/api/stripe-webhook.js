@@ -1,22 +1,51 @@
-const createError = require("http-errors");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+import createError from "http-errors";
 
-const webhookHandler = async (req, res) => {
+import Stripe from "./../api-services/stripe";
+import Github from "./../api-services/github";
+
+const stripe = Stripe(process.env.STRIPE_KEY);
+const github = Github();
+
+export default async function handler(req, res) {
+  console.log(`${req.baseUrl} - ${req.method}`);
+
+  try {
+    // Only handle POST requests for webhooks
+    if (req.method === "POST") {
+      await postHandler(req, res);
+    } else {
+      throw createError(405, `${req.method} not allowed`);
+    }
+  } catch (error) {
+    const status = error.response?.status || error.statusCode || 500;
+    const message = error.response?.data?.message || error.message;
+
+    // Something went wrong, log it
+    console.error(`${status} -`, message);
+
+    // Respond with error code and message
+    res.status(status).json({
+      message: error.expose ? message : `Faulty ${req.baseUrl}`,
+    });
+  }
+}
+
+const postHandler = async (req, res) => {
   // 1. Validate
   const { type, data } = req.body;
 
+  console.log(type);
+
   if (type !== "checkout.session.completed") {
-    throw createError(422, `${req.body.type} not allowed`, { expose: false });
+    throw createError(422, `${req.body.type} not supported`);
   }
 
-  const sessionFromStripe = await stripe.checkout.sessions.retrieve(
-    data.object.id
-  );
+  const sessionFromStripe = stripe.getSession({ id: data.object.id });
 
-  const { gitHubUsername } = sessionFromStripe.metadata || {};
+  const username = sessionFromStripe.metadata?.github;
 
-  // Make sure we have the GitHub username needed
-  if (!gitHubUsername) {
+  // // Make sure we have the GitHub username needed
+  if (!username) {
     throw createError(404, "GitHub username not found");
   }
 
@@ -26,29 +55,8 @@ const webhookHandler = async (req, res) => {
   }
 
   // 2. Do the thing
-  console.log("Add to GitHub repo");
+  await github.addRepoAccess({ username: username });
 
   // 3. Respond
   res.send("OK");
 };
-
-export default async function handler(req, res) {
-  console.log(`Stripe Webhook (${req.body.type})`);
-
-  try {
-    // Only handle POST requests for webhooks
-    if (req.method === "POST") {
-      await webhookHandler(req, res);
-    } else {
-      throw createError(405, `${req.method} not allowed`);
-    }
-  } catch (error) {
-    // Something went wrong, log it
-    console.error(`Stripe Webhook (${req.body.type})`, error.message);
-
-    // Respond with error code and message
-    res.status(error.statusCode || 500).json({
-      message: error.expose ? error.message : "Faulty Checkout",
-    });
-  }
-}

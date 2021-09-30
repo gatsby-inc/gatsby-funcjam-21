@@ -15,6 +15,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@raae/gatsby-plugin-new-css": "0.0.2",
     "axios": "0.21.1",
     "gatsby": "next",
     "joi": "17.4.2",

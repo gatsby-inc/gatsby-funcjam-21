@@ -1,65 +1,94 @@
-const createError = require("http-errors");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
-const Joi = require("joi");
+import createError from "http-errors";
+import Joi from "joi";
 
-const schema = Joi.object({
-  username: Joi.string().alphanum().required(),
-  amount: Joi.number().min(1000).required(),
-  successUrl: Joi.string().required(),
-  cancelUrl: Joi.string().required(),
-}).required();
+import Stripe from "./../api-services/stripe";
+import Github from "../api-services/github";
 
-const postHandler = async (req, res) => {
+const stripe = Stripe();
+const github = Github();
+
+export default async function handler(req, res) {
+  console.log(`${req.baseUrl} - ${req.method}`);
+
+  try {
+    if (req.method === "POST") {
+      await createStripeSession(req, res);
+    } else if (req.method === "GET") {
+      await fetchStripeSession(req, res);
+    } else {
+      throw createError(405, `${req.method} not allowed`);
+    }
+  } catch (error) {
+    const status = error.response?.status || error.statusCode || 500;
+    const message = error.response?.data?.message || error.message;
+
+    // Something went wrong, log it
+    console.error(`${status} -`, message);
+
+    // Respond with error code and message
+    res.status(status).json({
+      message: error.expose ? message : `Faulty ${req.baseUrl}`,
+    });
+  }
+}
+
+const createStripeSession = async (req, res) => {
+  const schema = Joi.object({
+    accessToken: Joi.string().required(),
+    successUrl: Joi.string().required(),
+    cancelUrl: Joi.string().required(),
+  }).required();
+
   // 1. Validate that data coming in
   const { value, error } = schema.validate(req.body);
   if (error) {
     throw createError(422, error);
   }
 
-  const { amount, username, successUrl, cancelUrl } = value;
-
-  // 2. Create a Stripe Checkout Session for the amount
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        quantity: 1,
-        price_data: {
-          unit_amount: amount * 100,
-          currency: "usd",
-          product: process.env.STRIPE_PRODUCT_ID,
-        },
-      },
-    ],
-    mode: "payment",
-    payment_method_types: ["card"],
-    metadata: {
-      gitHubUsername: username,
-    },
-    success_url: successUrl,
-    cancel_url: cancelUrl,
+  const user = await github.getUser({ accessToken: value.accessToken });
+  const access = await github.getRepoAccess({
+    username: user.username,
+    owner: process.env.GITHUB_REPO_OWNER,
+    repo: process.env.GITHUB_REPO,
   });
 
-  // 3. Send back the URL for the Checkout Session
-  res.status(200).json({
-    message: `Created a Stripe Checkout Session: ${session.id}`,
-    url: session.url,
-  });
+  if (access) {
+    // 3. Respond
+    res.status(202).json({
+      message: `${user.username} already has access to the repo`,
+    });
+  } else {
+    // 2. Create a Stripe Checkout Session for the amount
+
+    const session = await stripe.createSession({
+      username: user.username,
+      priceId: process.env.STRIPE_PRICE_ID,
+      successUrl: value.successUrl,
+      cancelUrl: value.cancelUrl,
+    });
+
+    // 3. Redirect to the session url
+    res.json({ url: session.url });
+  }
 };
 
-const getHandler = async (req, res) => {
-  // 1. Validate
-  if (!req.query.session_id) {
-    throw createError(422, "Missing Stripe Session Id", { expose: false });
+const fetchStripeSession = async (req, res) => {
+  const schema = Joi.object({
+    sessionId: Joi.string().required(),
+  }).required();
+
+  // 1. Validate that data coming in
+  const { value, error } = schema.validate(req.query);
+  if (error) {
+    throw createError(422, error);
   }
 
   // 2. Do the thing
-  const sessionFromStripe = await stripe.checkout.sessions.retrieve(
-    req.query.session_id
-  );
-  const { gitHubUsername } = sessionFromStripe.metadata || {};
+  const sessionFromStripe = await stripe.getSession({ id: value.sessionId });
+  const username = sessionFromStripe.metadata?.github;
 
   // Make sure we have the GitHub username needed
-  if (!gitHubUsername) {
+  if (!username) {
     throw createError(404, "GitHub username not found");
   }
 
@@ -70,28 +99,6 @@ const getHandler = async (req, res) => {
 
   // 3. Respond
   res.status(200).json({
-    message: `${gitHubUsername} has gotten access to the repo`,
+    message: `${username} shall get access to the repo shortly`,
   });
 };
-
-export default async function handler(req, res) {
-  console.log(`Checkout: ${req.method}`);
-
-  try {
-    if (req.method === "POST") {
-      await postHandler(req, res);
-    } else if (req.method === "GET") {
-      await getHandler(req, res);
-    } else {
-      throw createError(405, `${req.method} not allowed`);
-    }
-  } catch (error) {
-    // Something went wrong, log it
-    console.error(error.message);
-
-    // Respond with error code and message
-    res.status(error.statusCode || 500).json({
-      message: error.expose ? error.message : "Faulty Checkout",
-    });
-  }
-}

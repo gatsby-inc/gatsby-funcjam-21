@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
-import queryString from "query-string";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
+import useParams from "../hooks/useParams";
+
 const SuccessPage = ({ location }) => {
+  const params = useParams(location);
   const [status, setStatus] = useState("pending");
   const [message, setMessage] = useState("");
-  const [sessionId, setSessionId] = useState("");
+  const verifyDone = useRef(false);
 
   useEffect(() => {
-    const params = queryString.parse(location.search);
-
-    if (params.session_id) {
-      setSessionId(params.session_id);
-    } else {
-      setStatus("failed");
-      setMessage("Missing needed information, did you come here after paying?");
-    }
-  }, [location.search]);
-
-  useEffect(() => {
-    if (!sessionId) return;
-
-    const getTravel = async () => {
+    const verifyPurchase = async () => {
+      // Grab the session
       try {
         const result = await axios.get("/api/checkout", {
-          params: { session_id: sessionId },
+          params: { sessionId: params.sessionId },
         });
         setStatus("fulfilled");
         setMessage(result.data.message);
@@ -34,18 +24,16 @@ const SuccessPage = ({ location }) => {
       }
     };
 
-    getTravel();
-
-    // Grab the session
-  }, [sessionId]);
+    if (params.sessionId && !verifyDone.current) {
+      verifyPurchase();
+      verifyDone.current = true;
+    }
+  }, [params.sessionId]);
 
   return (
     <main>
-      <header>
-        <h1>Welcome to the repo</h1>
-      </header>
       <p>
-        {status === "pending" && <>Fetching...</>}
+        {status === "pending" && <>Verifying your payment...</>}
         {status === "failed" && <>Hold up!</>}
         {status === "fulfilled" && <>Success 🎉</>}
         {message && (

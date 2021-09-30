@@ -28,22 +28,17 @@ export default async function handler(req, res) {
 
 const getHandler = async (req, res) => {
   const GITHUB_AUTH_URL_BASE = `https://github.com/login/oauth/authorize`;
-  const GITHUB_PARAMS = `scope=user:email&client_id=${process.env.GITHUB_CLIENT_ID}&state=randomstring`;
+  const GITHUB_PARAMS = `scope=user:email&client_id=${process.env.GITHUB_CLIENT_ID}`;
   const GITHUB_AUTH_URL = `${GITHUB_AUTH_URL_BASE}?${GITHUB_PARAMS}`;
   res.redirect(GITHUB_AUTH_URL);
 };
 
 const postHandler = async (req, res) => {
   // 1. Validate
-  const { code, state } = req.body;
+  const { code } = req.body;
 
-  if (!code || !state) {
+  if (!code) {
     throw createError(422, "Missing auth code or state", { expose: false });
-  }
-
-  // TODO: Set state stuff on token?
-  if (req.body.state !== "randomstring") {
-    throw createError(401, "State mismatch", { expose: false });
   }
 
   // 2. Do the thing
@@ -69,6 +64,6 @@ const postHandler = async (req, res) => {
 
   // 3. Respond
   res.json({
-    access_token: access_token,
+    accessToken: access_token,
   });
 };
